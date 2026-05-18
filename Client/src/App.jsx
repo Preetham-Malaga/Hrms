@@ -77,32 +77,22 @@ function Dashboard() {
 
 function App() {
 
-  // LOGIN STATE
-
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
   );
 
-  // FORM STATES
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // PASSWORD SHOW
-
   const [showPassword, setShowPassword] = useState(false);
-
-  // SIGNUP TOGGLE
 
   const [isSignup, setIsSignup] = useState(false);
 
-  // LOGIN & SIGNUP
+  // LOGIN / SIGNUP
 
   const handleLogin = async () => {
 
     if (isSignup) {
-
-      // SIGNUP
 
       const { data, error } =
         await supabase.auth.signUp({
@@ -125,8 +115,6 @@ function App() {
       }
 
     } else {
-
-      // LOGIN
 
       const { data, error } =
         await supabase.auth.signInWithPassword({
@@ -159,106 +147,232 @@ function App() {
 
     return (
 
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
 
-        <div className="bg-white p-10 rounded-3xl shadow-sm w-[400px]">
+        <div className="w-full max-w-7xl bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-2">
 
-          {/* TITLE */}
+          {/* LEFT SIDE */}
 
-          <h1 className="text-3xl font-bold text-center mb-8 text-slate-800">
+          <div className="p-16 flex flex-col justify-center">
 
-            {isSignup
-              ? "HRMS Signup"
-              : "HRMS Login"}
+            {/* LOGO */}
 
-          </h1>
+            <div className="flex items-center gap-3 mb-14">
 
-          {/* FULL NAME */}
+              <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">
 
-          {isSignup && (
+                H
 
-            <input
-              type="text"
-              placeholder="Enter Full Name"
-              className="w-full border border-gray-200 p-3 rounded-xl mb-4 outline-none"
-            />
+              </div>
 
-          )}
+              <h1 className="text-3xl font-bold text-slate-800">
 
-          {/* EMAIL */}
+                HRMS
 
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            className="w-full border border-gray-200 p-3 rounded-xl mb-4 outline-none"
-          />
+              </h1>
 
-          {/* PASSWORD */}
+            </div>
 
-          <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            className="w-full border border-gray-200 p-3 rounded-xl outline-none"
-          />
+            {/* TITLE */}
 
-          {/* SHOW PASSWORD */}
+            <h1 className="text-5xl font-bold text-slate-900 mb-4">
 
-          <div className="flex items-center gap-2 mt-4 mb-6">
+              Welcome Back
 
-            <input
-              type="checkbox"
-              onChange={() =>
-                setShowPassword(!showPassword)
+            </h1>
+
+            <p className="text-gray-500 text-lg mb-10">
+
+              Login to manage your employees and HR operations.
+
+            </p>
+
+            {/* EMAIL */}
+
+            <div className="mb-6">
+
+              <label className="block text-gray-700 mb-2 font-medium">
+
+                Email
+
+              </label>
+
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                className="w-full border border-gray-200 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+              />
+
+            </div>
+
+            {/* PASSWORD */}
+
+            <div className="mb-6">
+
+              <label className="block text-gray-700 mb-2 font-medium">
+
+                Password
+
+              </label>
+
+              <input
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                className="w-full border border-gray-200 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+              />
+
+            </div>
+
+            {/* SHOW PASSWORD */}
+
+            <div className="flex items-center justify-between mb-8">
+
+              <div className="flex items-center gap-2">
+
+                <input
+                  type="checkbox"
+                  onChange={() =>
+                    setShowPassword(!showPassword)
+                  }
+                />
+
+                <p className="text-gray-500">
+
+                  Show Password
+
+                </p>
+
+              </div>
+
+              <p className="text-blue-600 cursor-pointer">
+
+                Forgot Password?
+
+              </p>
+
+            </div>
+
+            {/* LOGIN BUTTON */}
+
+            <button
+              onClick={handleLogin}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl text-lg font-semibold transition"
+            >
+
+              {isSignup
+                ? "Create Account"
+                : "Login"}
+
+            </button>
+
+            {/* SIGNUP */}
+
+            <p
+              onClick={() =>
+                setIsSignup(!isSignup)
               }
-            />
+              className="text-center mt-8 text-gray-600 cursor-pointer text-lg"
+            >
 
-            <label className="text-sm text-gray-600">
+              {isSignup
+                ? "Already have an account? Login"
+                : "Don't have an account? Signup"}
 
-              Show Password
-
-            </label>
+            </p>
 
           </div>
 
-          {/* BUTTON */}
+          {/* RIGHT SIDE */}
 
-          <button
-            onClick={handleLogin}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium"
-          >
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-16 relative overflow-hidden flex flex-col justify-center">
 
-            {isSignup
-              ? "Create Account"
-              : "Login"}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full"></div>
 
-          </button>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full"></div>
 
-          {/* TOGGLE */}
+            <h1 className="text-5xl font-bold leading-tight mb-6 z-10">
 
-          <p
-            onClick={() =>
-              setIsSignup(!isSignup)
-            }
-            className="text-center mt-5 text-blue-600 font-medium cursor-pointer"
-          >
+              Effortlessly manage your team and operations.
 
-            {isSignup
-              ? "Already have an account? Login"
-              : "Don't have an account? Signup"}
+            </h1>
 
-          </p>
+            <p className="text-xl text-blue-100 mb-12 z-10">
+
+              Access your HR dashboard and manage employees with ease.
+
+            </p>
+
+            {/* DASHBOARD CARD */}
+
+            <div className="bg-white rounded-3xl p-8 text-slate-800 shadow-2xl z-10">
+
+              <div className="grid grid-cols-3 gap-4 mb-6">
+
+                <div className="bg-blue-600 text-white p-5 rounded-2xl">
+
+                  <p className="text-sm">
+
+                    Employees
+
+                  </p>
+
+                  <h1 className="text-3xl font-bold mt-2">
+
+                    328
+
+                  </h1>
+
+                </div>
+
+                <div className="bg-gray-100 p-5 rounded-2xl">
+
+                  <p className="text-sm text-gray-500">
+
+                    Attendance
+
+                  </p>
+
+                  <h1 className="text-3xl font-bold mt-2">
+
+                    96%
+
+                  </h1>
+
+                </div>
+
+                <div className="bg-gray-100 p-5 rounded-2xl">
+
+                  <p className="text-sm text-gray-500">
+
+                    Leaves
+
+                  </p>
+
+                  <h1 className="text-3xl font-bold mt-2">
+
+                    24
+
+                  </h1>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -277,8 +391,6 @@ function App() {
         {/* SIDEBAR */}
 
         <div className="w-72 h-screen bg-white border-r border-gray-200 p-5">
-
-          {/* LOGO */}
 
           <div className="flex items-center gap-3 mb-10">
 
@@ -301,12 +413,6 @@ function App() {
             </div>
 
           </div>
-
-          {/* MENU */}
-
-          <p className="text-gray-400 text-sm mb-4">
-            Menu
-          </p>
 
           <ul className="space-y-3">
 
@@ -366,7 +472,7 @@ function App() {
 
         </div>
 
-        {/* MAIN CONTENT */}
+        {/* CONTENT */}
 
         <div className="flex-1 bg-gray-100 min-h-screen">
 
@@ -386,11 +492,7 @@ function App() {
 
             </div>
 
-            {/* RIGHT SIDE */}
-
             <div className="flex items-center gap-5">
-
-              {/* NOTIFICATIONS */}
 
               <button className="bg-blue-500 text-white px-5 py-2 rounded-xl hover:bg-blue-600">
 
@@ -398,20 +500,18 @@ function App() {
 
               </button>
 
-              {/* PROFILE */}
-
               <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
 
                 P
 
               </div>
 
-              {/* LOGOUT */}
-
               <button
                 onClick={() => {
 
-                  localStorage.removeItem("isLoggedIn");
+                  localStorage.removeItem(
+                    "isLoggedIn"
+                  );
 
                   setIsLoggedIn(false);
 
@@ -427,7 +527,7 @@ function App() {
 
           </div>
 
-          {/* PAGE CONTENT */}
+          {/* ROUTES */}
 
           <div className="p-8">
 
